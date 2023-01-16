@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/rmid.ogg-ea525e9608a6c0dcd505e49a2c59408f.oggstr"
+
+[deps]
+
+source_file="res://rsound/rmid.ogg"
+dest_files=[ "res://.import/rmid.ogg-ea525e9608a6c0dcd505e49a2c59408f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

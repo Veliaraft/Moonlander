@@ -1,0 +1,667 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=1]
+[ext_resource path="res://rocket.png" type="Texture" id=2]
+[ext_resource path="res://fire.png" type="Texture" id=3]
+[ext_resource path="res://zbezdi.jpg" type="Texture" id=4]
+[ext_resource path="res://stars.gd" type="Script" id=5]
+[ext_resource path="res://areas/5x.tscn" type="PackedScene" id=6]
+[ext_resource path="res://INFont.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Monocraft.otf" type="DynamicFontData" id=8]
+[ext_resource path="res://Floor.gd" type="Script" id=9]
+[ext_resource path="res://areas/4x.tscn" type="PackedScene" id=10]
+[ext_resource path="res://areas/2x.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Level.gd" type="Script" id=12]
+[ext_resource path="res://battle-city-sfx-7.mp3" type="AudioStream" id=13]
+[ext_resource path="res://Camera2D.gd" type="Script" id=14]
+[ext_resource path="res://Pause.gd" type="Script" id=15]
+[ext_resource path="res://rsound/rstart.ogg" type="AudioStream" id=16]
+[ext_resource path="res://rsound/rmid.ogg" type="AudioStream" id=17]
+[ext_resource path="res://rsound/rend.ogg" type="AudioStream" id=18]
+[ext_resource path="res://rsound/alert.ogg" type="AudioStream" id=19]
+[ext_resource path="res://MoonPlace.png" type="Texture" id=20]
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform vec2 pos = vec2(0.0, 0.0);
+uniform vec2 speed =  vec2(0.0, 0.0);
+
+void fragment(){
+     vec2 move = pos * speed;
+     COLOR = texture(TEXTURE, UV + move);   
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/pos = Vector2( 0, 0 )
+shader_param/speed = Vector2( 0.023, 0.034 )
+
+[sub_resource type="CanvasItemMaterial" id=6]
+
+[sub_resource type="Animation" id=14]
+resource_name = "rocket_sound"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("start:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("mid:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("end:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 7.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_check_but"
+} ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "rsnd"
+length = 6.35
+tracks/0/type = "value"
+tracks/0/path = NodePath("mid:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 6.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_check_but"
+} ]
+}
+
+[sub_resource type="CircleShape2D" id=11]
+radius = 88.8582
+
+[sub_resource type="ImageTexture" id=2]
+
+[sub_resource type="ImageTexture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.670588, 0.192157, 0.368627, 1 )
+border_width_left = 5
+border_width_top = 6
+border_width_right = 20
+border_color = Color( 0.788235, 0.137255, 0.384314, 1 )
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.156863, 0.803922, 0.439216, 1 )
+border_color = Color( 1, 0.803922, 0.0705882, 1 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 20
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=12]
+size = 80
+font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.054902, 1, 0, 0 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 1, 0, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.0941176, 1, 0, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="GDScript" id=21]
+script/source = "extends CanvasLayer
+
+onready var lbl = $Label
+
+func _on_Timer_timeout():
+	lbl.visible = not lbl.visible
+"
+
+[sub_resource type="DynamicFont" id=17]
+size = 80
+font_data = ExtResource( 8 )
+
+[node name="Node2D" type="Node2D"]
+pause_mode = 1
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_vertical_guides_": [ -726.0 ]
+}
+
+[node name="Background" type="Node2D" parent="."]
+position = Vector2( 126, 291 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="stars" type="Sprite" parent="Background"]
+material = SubResource( 8 )
+position = Vector2( 1338.29, 872 )
+scale = Vector2( 1.90308, 1.90308 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="stars2" type="Sprite" parent="Background"]
+material = SubResource( 8 )
+position = Vector2( -1326, 872 )
+scale = Vector2( 1.90308, 1.90308 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="stars3" type="Sprite" parent="Background"]
+material = SubResource( 8 )
+position = Vector2( 1338.31, -903.563 )
+scale = Vector2( 1.90308, 1.90308 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="stars4" type="Sprite" parent="Background"]
+material = SubResource( 8 )
+position = Vector2( -1326, -903.567 )
+scale = Vector2( 1.90308, 1.90308 )
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 126, 291 )
+rotation = 0.525265
+scale = Vector2( 3.50117, 3.50117 )
+collision_mask = 3
+script = ExtResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Player"]
+modulate = Color( 1, 1, 1, 0.117647 )
+material = SubResource( 6 )
+position = Vector2( 0, 7.71167 )
+rotation = 1.59785
+emitting = false
+amount = 30
+lifetime = 0.3
+speed_scale = 3.0
+fixed_fps = 60
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 0.81
+spread = 10.27
+gravity = Vector2( 0, 0 )
+initial_velocity = 7.0
+initial_velocity_random = 0.5
+linear_accel = 25.0
+scale_amount = 0.1
+scale_amount_random = 0.22
+color = Color( 0.933333, 0.933333, 0.254902, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpaceShip" type="Sprite" parent="Player"]
+scale = Vector2( 0.0624792, 0.0624792 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Player"]
+position = Vector2( 0, 0.026774 )
+scale = Vector2( 0.812502, 0.812502 )
+polygon = PoolVector2Array( -3.71304, 1.99933, -3.71305, -1.99934, -2.28494, -6.85486, 0, -9.42543, 2.28494, -6.85486, 3.71304, -1.99934, 3.71304, 1.99933, 4.8555, 2.57056, 5.71237, 5.14113, 5.71237, 7.7117, 5.42676, 9.71103, -5.42676, 9.71103, -5.71237, 7.14046, -5.71237, 5.14113, -4.85553, 2.85619 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+update_rotation = false
+update_scale = false
+
+[node name="RemoteTransform2D2" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Sprite")
+update_rotation = false
+update_scale = false
+
+[node name="RemoteTransform2D3" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Area2D")
+update_rotation = false
+update_scale = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+anims/rocket_sound = SubResource( 14 )
+anims/rsnd = SubResource( 15 )
+
+[node name="start" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource( 16 )
+volume_db = 6.0
+
+[node name="mid" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource( 17 )
+volume_db = 6.0
+
+[node name="end" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource( 18 )
+volume_db = 6.0
+
+[node name="alert" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource( 19 )
+volume_db = 8.0
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 126, 291 )
+rotation = 0.525265
+scale = Vector2( 3.50117, 3.50117 )
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 11 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 126, 291 )
+scale = Vector2( 3.50117, 3.50117 )
+current = true
+limit_bottom = 1080
+limit_smoothed = true
+smoothing_enabled = true
+smoothing_speed = 4.0
+editor_draw_limits = true
+script = ExtResource( 14 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Camera2D"]
+remote_path = NodePath("../../Background")
+update_rotation = false
+update_scale = false
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="GUI"]
+margin_left = 18.9989
+margin_top = 15.9992
+margin_right = 63.9989
+margin_bottom = 29.9992
+custom_fonts/font = ExtResource( 7 )
+text = "SCORE:"
+
+[node name="score" type="Label" parent="GUI/Score"]
+margin_left = 171.001
+margin_right = 211.001
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+
+[node name="X_SPEED" type="Label" parent="GUI"]
+margin_left = 1568.0
+margin_top = 15.9992
+margin_right = 1629.0
+margin_bottom = 29.9992
+custom_fonts/font = ExtResource( 7 )
+text = "X_SPEED: "
+
+[node name="x_speed" type="Label" parent="GUI/X_SPEED"]
+margin_left = 223.0
+margin_right = 284.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+
+[node name="Y_SPEED" type="Label" parent="GUI"]
+margin_left = 1568.0
+margin_top = 72.0005
+margin_right = 1628.0
+margin_bottom = 86.0005
+custom_fonts/font = ExtResource( 7 )
+text = "Y_SPEED: "
+
+[node name="y_speed" type="Label" parent="GUI/Y_SPEED"]
+margin_left = 223.0
+margin_right = 284.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+
+[node name="ANGLE" type="Label" parent="GUI"]
+margin_left = 1621.0
+margin_top = 128.002
+margin_right = 1810.0
+margin_bottom = 169.002
+custom_fonts/font = ExtResource( 7 )
+text = "ANGLE: "
+
+[node name="angle" type="Label" parent="GUI/ANGLE"]
+margin_left = 170.0
+margin_right = 231.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+
+[node name="fuel_level" type="ColorRect" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 23.0
+margin_top = 227.0
+margin_right = -1868.0
+margin_bottom = -208.0
+color = Color( 0, 0.552941, 1, 1 )
+
+[node name="VSlider" type="VSlider" parent="GUI/fuel_level"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+margin_top = 1.0
+margin_right = 2.0
+margin_bottom = 1.0
+mouse_filter = 2
+custom_icons/grabber_disabled = SubResource( 2 )
+custom_icons/grabber_highlight = SubResource( 3 )
+custom_styles/slider = SubResource( 4 )
+custom_styles/grabber_area_highlight = SubResource( 5 )
+custom_styles/grabber_area = SubResource( 5 )
+max_value = 1000.0
+value = 600.0
+rounded = true
+editable = false
+scrollable = false
+
+[node name="Label" type="Label" parent="GUI/fuel_level"]
+margin_left = -19.0
+margin_top = 647.0
+margin_right = 49.0
+margin_bottom = 684.0
+custom_fonts/font = SubResource( 10 )
+text = "fuel"
+align = 1
+valign = 1
+
+[node name="Floor" type="Node2D" parent="."]
+position = Vector2( 0, -95.8916 )
+script = ExtResource( 9 )
+
+[node name="Node2D" type="Node2D" parent="Floor"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Node2D"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Floor/Node2D/StaticBody2D"]
+position = Vector2( -1277, 3 )
+scale = Vector2( 9.3774, 2.27143 )
+polygon = PoolVector2Array( 0, 356, 6, 356, 7, 360, 12, 360, 13, 364, 15, 364, 16, 376, 19, 388, 19, 392, 22, 400, 27, 403, 32, 410, 51, 410, 61, 400, 64, 396, 68, 396, 68, 392, 70, 388, 75, 386, 80, 380, 85, 379, 89, 376, 94, 376, 99, 377, 103, 380, 104, 384, 108, 388, 109, 392, 113, 396, 114, 400, 117, 404, 122, 404, 125, 396, 133, 396, 136, 400, 138, 408, 145, 413, 150, 437, 150, 441, 154, 445, 164, 445, 173, 437, 179, 429, 182, 425, 186, 423, 192, 404, 197, 402, 204, 395, 210, 385, 212, 376, 217, 372, 219, 368, 220, 363, 224, 359, 229.141, 358.805, 229.675, 351.981, 238, 348, 243, 343, 246, 335, 247, 315, 248, 307, 252, 297, 254.701, 295.423, 255.686, 290.96, 257.093, 286.498, 266, 286, 267, 291, 272, 291, 273, 295, 279, 297, 282, 301, 285, 309, 292, 313, 297.761, 331.123, 306.345, 331.123, 308, 335, 309, 339, 313, 344, 317, 352, 322, 352, 323, 364, 327, 376, 327, 380, 331, 380, 332, 384, 336, 388, 338, 396, 341, 400, 345, 406, 350, 429, 350, 434, 354, 441, 359, 441, 361, 450, 370.64, 472.29, 389.404, 460.722, 410, 461, 412, 449, 418, 441, 420, 433, 422, 433, 425, 425, 429, 423, 434, 416, 439, 415, 443, 412, 448, 412, 455, 430, 456, 435, 459, 439, 463, 441, 466, 445, 468, 453, 476, 457, 487, 457, 495, 458, 504, 461, 522, 461, 525, 452, 527, 441, 527, 433, 532, 433, 534, 425, 539, 420, 541, 416, 542, 412, 546, 408, 551, 408, 555, 390, 560, 388, 565, 392, 573, 392, 578, 388, 583, 369, 588, 367, 589, 364, 592, 360, 597, 356, 597, 703, 0, 701 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Floor/Node2D/StaticBody2D"]
+position = Vector2( -1277, 3 )
+scale = Vector2( 9.3774, 2.27143 )
+texture = ExtResource( 20 )
+texture_scale = Vector2( 6.4, 2 )
+polygon = PoolVector2Array( 0, 356.113, 6.05092, 356.113, 7.03595, 360.13, 12.1018, 360.13, 12.9462, 364.146, 14.9162, 364.146, 16.042, 376.195, 18.9971, 387.798, 18.9971, 392.26, 21.9522, 399.846, 27.0181, 402.97, 32.0839, 410.11, 51.081, 410.11, 61.0721, 399.846, 64.0272, 395.83, 67.9673, 395.83, 67.9673, 391.814, 70.0781, 387.798, 75.144, 386.013, 80.0691, 379.765, 85.135, 378.872, 88.9344, 376.195, 94.2817, 375.749, 99.0662, 377.087, 103.006, 379.765, 103.991, 383.781, 108.072, 388.244, 108.917, 391.814, 112.997, 396.276, 113.982, 400.293, 116.938, 403.863, 122.003, 403.863, 125.099, 395.83, 132.979, 395.83, 136.075, 400.293, 138.045, 407.879, 145.081, 413.234, 150.006, 437.332, 150.006, 440.902, 154.087, 444.918, 164.078, 444.918, 173.225, 436.886, 182.09, 424.837, 186.031, 423.052, 191.941, 404.309, 197.007, 402.078, 204.043, 394.938, 210.094, 384.674, 212.064, 375.749, 217.129, 371.732, 219.1, 367.716, 220.085, 362.807, 224.025, 358.791, 229.174, 358.754, 229.644, 352.237, 237.956, 348.081, 243.162, 342.726, 245.977, 334.693, 246.962, 315.058, 247.947, 306.579, 252.028, 296.761, 254.701, 295.422, 255.546, 290.96, 257.094, 286.497, 266.1, 286.051, 266.944, 291.406, 272.01, 290.96, 272.995, 294.976, 279.046, 297.207, 282.001, 300.777, 284.956, 308.81, 291.992, 313.273, 297.761, 331.123, 306.345, 331.123, 308.034, 335.139, 309.019, 339.156, 312.959, 344.064, 317.04, 351.651, 321.965, 352.097, 323.091, 364.592, 326.89, 375.749, 326.89, 379.765, 330.971, 379.765, 332.097, 383.781, 336.037, 388.244, 338.007, 395.83, 345.043, 406.094, 349.968, 428.853, 349.968, 433.762, 353.908, 440.902, 359.115, 441.348, 361.085, 450.274, 370.555, 472.64, 389.921, 460.938, 410.055, 460.538, 412.025, 448.935, 418.076, 440.902, 420.187, 432.87, 422.016, 432.87, 424.971, 424.837, 429.052, 423.052, 433.977, 415.912, 439.043, 415.019, 442.984, 411.895, 448.049, 411.895, 455.085, 429.746, 456.07, 435.101, 459.025, 439.117, 463.106, 440.902, 466.061, 444.918, 468.031, 452.951, 475.912, 456.967, 487.169, 456.967, 495.05, 457.86, 504.056, 460.984, 522.068, 460.984, 525.023, 452.059, 526.993, 440.902, 526.993, 432.87, 532.059, 432.87, 534.029, 424.837, 538.954, 419.928, 541.065, 415.912, 542.05, 411.895, 545.99, 407.879, 551.056, 407.879, 554.996, 390.029, 560.062, 387.798, 564.987, 391.814, 573.008, 391.814, 578.074, 387.798, 582.999, 369.055, 588.065, 366.823, 589.05, 363.7, 592.005, 360.13, 597, 355.998, 597.002, 1476.18, 296.917, 1479.7, 0, 1472.65 )
+
+[node name="SafeZones" type="Node2D" parent="Floor/Node2D"]
+
+[node name="Area2D" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 2068.13, 1011.21 )
+collision_mask = 0
+
+[node name="Area2D2" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( 211.297, 1019.8 )
+
+[node name="Area2D3" parent="Floor/Node2D/SafeZones" instance=ExtResource( 11 )]
+position = Vector2( -883.103, 940.269 )
+
+[node name="Area2D4" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( -1248.65, 818.56 )
+
+[node name="Area2D5" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( -1186.91, 828.009 )
+
+[node name="Area2D6" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( -657.114, 908.014 )
+
+[node name="Area2D7" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( -65.5809, 909.274 )
+
+[node name="Area2D8" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 847.862, 825.489 )
+
+[node name="Area2D9" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( 1176.7, 659.809 )
+
+[node name="Area2D10" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( 1554.68, 762.493 )
+
+[node name="Area2D11" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 1717.21, 809.74 )
+
+[node name="Area2D12" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 2902.45, 944.183 )
+
+[node name="Area2D13" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 3686.98, 992.504 )
+
+[node name="Area2D14" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( 3869.04, 934.548 )
+
+[node name="Area2D15" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( 4062.19, 898.053 )
+
+[node name="Area2D16" parent="Floor/Node2D/SafeZones" instance=ExtResource( 11 )]
+position = Vector2( 3260, 1048.53 )
+
+[node name="Area2D17" parent="Floor/Node2D/SafeZones" instance=ExtResource( 6 )]
+position = Vector2( -155.291, 927.455 )
+
+[node name="Area2D18" parent="Floor/Node2D/SafeZones" instance=ExtResource( 10 )]
+position = Vector2( -402.07, 865.092 )
+
+[node name="Area2D19" parent="Floor/Node2D/SafeZones" instance=ExtResource( 11 )]
+position = Vector2( 2475.17, 1051.86 )
+
+[node name="Area2D20" parent="Floor/Node2D/SafeZones" instance=ExtResource( 11 )]
+position = Vector2( 3533.31, 1053.17 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 13 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 126, 291 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="Result" type="CanvasLayer" parent="."]
+pause_mode = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Result"]
+margin_left = -27.0
+margin_top = -18.0
+margin_right = 1943.0
+margin_bottom = 1098.0
+color = Color( 0, 0.109804, 0.176471, 0.705882 )
+
+[node name="Label" type="Label" parent="Result"]
+margin_left = 590.513
+margin_top = 339.704
+margin_right = 1385.51
+margin_bottom = 420.704
+custom_fonts/font = SubResource( 12 )
+text = "You're amazing!"
+
+[node name="Label2" type="Label" parent="Result"]
+margin_left = 707.813
+margin_top = 472.184
+margin_right = 1058.81
+margin_bottom = 513.184
+custom_fonts/font = ExtResource( 7 )
+text = "Your result: "
+
+[node name="Label3" type="Label" parent="Result"]
+margin_left = 1047.23
+margin_top = 475.003
+margin_right = 1398.23
+margin_bottom = 516.003
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+
+[node name="Button" type="Button" parent="Result"]
+margin_left = 744.251
+margin_top = 769.679
+margin_right = 1161.25
+margin_bottom = 865.679
+custom_fonts/font = ExtResource( 7 )
+custom_styles/hover = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+text = "OK"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 1
+physics_interpolation_mode = 1
+visible = false
+script = SubResource( 21 )
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 8.0
+margin_top = 382.0
+margin_right = 1916.0
+margin_bottom = 483.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 17 )
+text = "--- !!! LOW FUEL !!! ---"
+align = 1
+
+[node name="Timer" type="Timer" parent="CanvasLayer"]
+wait_time = 0.5
+autostart = true
+
+[node name="Control" type="CanvasLayer" parent="."]
+pause_mode = 2
+visible = false
+script = ExtResource( 15 )
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0, 0.0470588, 1, 0.0901961 )
+
+[node name="Panel" type="Panel" parent="Control"]
+margin_left = 660.0
+margin_top = 340.0
+margin_right = 1264.0
+margin_bottom = 590.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
+margin_left = 12.0
+margin_top = 14.0
+margin_right = 592.0
+margin_bottom = 185.0
+custom_constants/separation = 10
+
+[node name="RESUME" type="Button" parent="Control/Panel/VBoxContainer"]
+pause_mode = 2
+margin_right = 580.0
+margin_bottom = 47.0
+custom_fonts/font = ExtResource( 7 )
+text = "RESUME"
+
+[node name="RESTART" type="Button" parent="Control/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 57.0
+margin_right = 580.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 7 )
+text = "RESTART"
+
+[node name="MAIN_MENU" type="Button" parent="Control/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 114.0
+margin_right = 580.0
+margin_bottom = 161.0
+custom_fonts/font = ExtResource( 7 )
+text = "RETURN TO MAIN"
+
+[node name="EXIT" type="Button" parent="Control/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 171.0
+margin_right = 580.0
+margin_bottom = 218.0
+custom_fonts/font = ExtResource( 7 )
+text = "EXIT"
+
+[connection signal="body_entered" from="Area2D" to="Camera2D" method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Camera2D" method="_on_Area2D_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="Result/Button" to="." method="_on_Button_pressed"]
+[connection signal="timeout" from="CanvasLayer/Timer" to="CanvasLayer" method="_on_Timer_timeout"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/RESUME" to="Control" method="_on_RESUME_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/RESTART" to="Control" method="_on_RESTART_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/MAIN_MENU" to="Control" method="_on_MAIN_MENU_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/EXIT" to="Control" method="_on_EXIT_pressed"]

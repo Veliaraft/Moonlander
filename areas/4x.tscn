@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://INFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://areas/4x.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 22.0971, 10 )
+
+[node name="Area2D2" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.582325, 0 )
+shape = SubResource( 11 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -32.0
+margin_top = -10.0
+margin_right = 33.0
+margin_bottom = 9.0
+color = Color( 0.196078, 1, 0, 0.34902 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "4x"
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D2_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Area2D2_body_exited"]
