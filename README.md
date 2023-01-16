@@ -15,4 +15,4 @@ Thank you for being here, for being there, and for coming here. I am pleased! Yo
 
 And many thanks to the developers of the Godot game engine!
 
-![image](https://user-images.githubusercontent.com/43182375/212741864-e894fe29-b34c-49ae-a112-82819d0db52d.png)
+![image](https://user-images.githubusercontent.com/43182375/212742241-2514d23b-ebd0-4d87-a864-39a5542ba7ab.png)
