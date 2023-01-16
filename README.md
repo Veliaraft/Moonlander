@@ -12,3 +12,7 @@ Although my task was to make a remake of LunarLander (I do not claim intellectua
 Download Godot on Steam faster, take this project for yourself, and open it in Godot! Use it - this project is especially for you!
 
 Thank you for being here, for being there, and for coming here. I am pleased! You're so breathtaking!
+
+And many thanks to the developers of the Godot game engine!
+
+![image](https://user-images.githubusercontent.com/43182375/212741864-e894fe29-b34c-49ae-a112-82819d0db52d.png)
