@@ -31,6 +31,7 @@ Management:
 - Left/right arrow - turn the rocket.
 
 !!! Acceleration in the direction opposite to the rocket movement is used as a brake.
+
 !!!Gravity exists and acts constantly.
 
 Good luck and have fun!
