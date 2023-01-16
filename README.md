@@ -18,7 +18,7 @@ And many thanks to the developers of the Godot game engine!
 ![image](https://user-images.githubusercontent.com/43182375/212742241-2514d23b-ebd0-4d87-a864-39a5542ba7ab.png)
 
 
-*HOW TO PLAY
+##HOW TO PLAY
 
 Your task is to land a ship on the moon. For this:
 - You can only get up on specially designated parking spaces (platforms).
