@@ -16,3 +16,20 @@ Thank you for being here, for being there, and for coming here. I am pleased! Yo
 And many thanks to the developers of the Godot game engine!
 
 ![image](https://user-images.githubusercontent.com/43182375/212742241-2514d23b-ebd0-4d87-a864-39a5542ba7ab.png)
+
+
+[HOW TO PLAY]
+Your task is to land a ship on the moon. For this:
+- You can only get up on specially designated parking spaces (platforms).
+- The horizontal landing speed should not exceed 2 modulo.
+- The vertical landing speed should not exceed 3 modulo.
+- The angle of rotation should not exceed 5 degrees modulo.
+
+Management:
+- Up arrow - acceleration in the direction of the rocket.
+- Left/right arrow - turn the rocket.
+
+!!! Acceleration in the direction opposite to the rocket movement is used as a brake.
+!!!Gravity exists and acts constantly.
+
+Good luck and have fun!
