@@ -30,7 +30,7 @@ Your task is to land a ship on the moon. For this:
 - The vertical landing speed should not exceed 3 modulo.
 - The angle of rotation should not exceed 5 degrees modulo.
 
-Management:
+Controls:
 - Up arrow - acceleration in the direction of the rocket.
 - Left/right arrow - turn the rocket.
 
